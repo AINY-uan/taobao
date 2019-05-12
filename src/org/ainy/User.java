@@ -14,7 +14,7 @@ import java.util.List;
  * @ClassName User
  * @Author    AINY-uan
  * @Date      2019-02-27 10:28
- * @Version   1.1
+ * @Version   1.2
  */
 public class User extends JFrame {
 
@@ -41,7 +41,7 @@ public class User extends JFrame {
 
     private User() {
 
-        String url = "jdbc:Access:///C:/Taobao/Taobao.accdb"; // 连接名为Taobao的数据库
+        String url = "jdbc:Access:///E:/Workspace/Resources/Taobao/Taobao.accdb"; // 连接名为Taobao的数据库
         String driver = "com.hxtt.sql.access.AccessDriver";
         try {
             Class.forName(driver); // Microsoft Access数据库指定与JDBC-ODBC桥驱动

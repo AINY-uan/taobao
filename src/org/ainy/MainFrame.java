@@ -22,7 +22,7 @@ import java.sql.Statement;
  * @ClassName MainFrame
  * @Author    AINY-uan
  * @Date      2019-02-27 10:30
- * @Version   1.1
+ * @Version   1.2
  */
 class MainFrame extends JFrame {
 
@@ -93,7 +93,7 @@ class MainFrame extends JFrame {
         this.setVisible(true);
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                String url = "jdbc:Access:///C:/Taobao/Taobao.accdb"; // 连接名为Taobao的数据库
+                String url = "jdbc:Access:///E:/Workspace/Resources/Taobao/Taobao.accdb"; // 连接名为Taobao的数据库
                 String driver = "com.hxtt.sql.access.AccessDriver";
                 try {
                     Class.forName(driver); // Microsoft Access数据库指定与JDBC-ODBC桥驱动
@@ -408,7 +408,7 @@ class MainFrame extends JFrame {
 
         String name = jTextFieldOfAccount.getText().trim();
         String input = inputArea.getText().trim();
-        if (name == null || "".equals(name)) {
+        if ("".equals(name)) {
             jTextFieldOfAccount.setText("");
             JOptionPane.showMessageDialog(null, "请输入账户名！", "错误", JOptionPane.ERROR_MESSAGE);
         } else {
@@ -435,31 +435,31 @@ class MainFrame extends JFrame {
                     sb.append("/");
                     BigDecimal area = new BigDecimal("0");
                     int counts = 0;
-                    for (int i = 0; i < sizeTableModelCounts.length; i++) {
-                        sb1.append(sizeTableModel.getValueAt(sizeTableModelCounts[i], 0));
+                    for (int sizeTableModelCount : sizeTableModelCounts) {
+                        sb1.append(sizeTableModel.getValueAt(sizeTableModelCount, 0));
                         sb1.append("米宽");
-                        sb1.append(sizeTableModel.getValueAt(sizeTableModelCounts[i], 1));
+                        sb1.append(sizeTableModel.getValueAt(sizeTableModelCount, 1));
                         sb1.append("米长");
-                        sb1.append(sizeTableModel.getValueAt(sizeTableModelCounts[i], 2));
+                        sb1.append(sizeTableModel.getValueAt(sizeTableModelCount, 2));
                         sb1.append("条");
                         sb1.append("+");
-                        BigDecimal width = new BigDecimal(sizeTableModel.getValueAt(sizeTableModelCounts[i], 0).toString().trim());
-                        BigDecimal length = new BigDecimal(sizeTableModel.getValueAt(sizeTableModelCounts[i], 1).toString().trim());
-                        BigDecimal count = new BigDecimal(sizeTableModel.getValueAt(sizeTableModelCounts[i], 2).toString().trim());
+                        BigDecimal width = new BigDecimal(sizeTableModel.getValueAt(sizeTableModelCount, 0).toString().trim());
+                        BigDecimal length = new BigDecimal(sizeTableModel.getValueAt(sizeTableModelCount, 1).toString().trim());
+                        BigDecimal count = new BigDecimal(sizeTableModel.getValueAt(sizeTableModelCount, 2).toString().trim());
                         area = area.add(length.multiply(width).multiply(count));
                         counts += count.intValue();
                     }
-                    sb.append(sb1.toString().substring(0, sb1.toString().length() - 1));
+                    sb.append(sb1.toString(), 0, sb1.toString().length() - 1);
                     sb.append("/");
                     sb.append("总共");
                     sb.append(counts);
                     sb.append("条");
                     sb.append("/");
-                    for (int j = 0; j < partsTableModelCounts.length; j++) {
-                        sb2.append(partsTableModel.getValueAt(partsTableModelCounts[j], 0));
+                    for (int partsTableModelCount : partsTableModelCounts) {
+                        sb2.append(partsTableModel.getValueAt(partsTableModelCount, 0));
                         sb2.append("+");
                     }
-                    if (input == null || "".equals(input)) {
+                    if ("".equals(input)) {
                         sb2.append("无");
                     } else {
                         sb2.append(input);
@@ -484,7 +484,7 @@ class MainFrame extends JFrame {
 
         String name = jTextFieldOfAccount.getText().trim();
         String input = inputArea.getText().trim();
-        if (name == null || "".equals(name)) {
+        if ("".equals(name)) {
             jTextFieldOfAccount.setText("");
             JOptionPane.showMessageDialog(null, "请输入账户名！", "错误", JOptionPane.ERROR_MESSAGE);
         } else {
@@ -511,32 +511,32 @@ class MainFrame extends JFrame {
                     sb.append("/");
                     sb.append("总共");
                     BigDecimal counts = new BigDecimal("0");
-                    for (int i = 0; i < sizeTableModelCounts.length; i++) {
-                        counts = counts.add(new BigDecimal(sizeTableModel.getValueAt(sizeTableModelCounts[i], 2).toString().trim()));
+                    for (int sizeTableModelCount : sizeTableModelCounts) {
+                        counts = counts.add(new BigDecimal(sizeTableModel.getValueAt(sizeTableModelCount, 2).toString().trim()));
                     }
                     sb.append(counts);
                     sb.append("条");
                     sb.append("/");
-                    for (int j = 0; j < partsTableModelCounts.length; j++) {
-                        sb1.append(partsTableModel.getValueAt(partsTableModelCounts[j], 0));
+                    for (int partsTableModelCount : partsTableModelCounts) {
+                        sb1.append(partsTableModel.getValueAt(partsTableModelCount, 0));
                         sb1.append("+");
                     }
-                    if (input == null || "".equals(input)) {
+                    if ("".equals(input)) {
                         sb1.append("无");
                     } else {
                         sb1.append(input);
                     }
                     sb.append(sb1.toString());
                     sb.append("/");
-                    for (int i = 0; i < sizeTableModelCounts.length; i++) {
-                        sb2.append(sizeTableModel.getValueAt(sizeTableModelCounts[i], 0));
+                    for (int sizeTableModelCount : sizeTableModelCounts) {
+                        sb2.append(sizeTableModel.getValueAt(sizeTableModelCount, 0));
                         sb2.append("=");
-                        BigDecimal length = new BigDecimal(sizeTableModel.getValueAt(sizeTableModelCounts[i], 1).toString().trim());
+                        BigDecimal length = new BigDecimal(sizeTableModel.getValueAt(sizeTableModelCount, 1).toString().trim());
                         sb2.append(length);
                         sb2.append("米");
                         sb2.append("+");
                     }
-                    sb.append(sb2.toString().substring(0, sb2.toString().length() - 1));
+                    sb.append(sb2.toString(), 0, sb2.toString().length() - 1);
                     sb.append("/");
                     sb.append(expressTableModel.getValueAt(expressTable.getSelectedRow(), 0));
                     outputArea.setText(sb.toString());
