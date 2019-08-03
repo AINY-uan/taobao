@@ -93,7 +93,7 @@ class MainFrame extends JFrame {
         this.setVisible(true);
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                String url = "jdbc:Access:///E:/Workspace/Resources/Taobao/Taobao.accdb"; // 连接名为Taobao的数据库
+                String url = "jdbc:Access:///db/Taobao.accdb"; // 连接名为Taobao的数据库
                 String driver = "com.hxtt.sql.access.AccessDriver";
                 try {
                     Class.forName(driver); // Microsoft Access数据库指定与JDBC-ODBC桥驱动
