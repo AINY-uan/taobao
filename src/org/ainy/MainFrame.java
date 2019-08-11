@@ -103,7 +103,7 @@ class MainFrame extends JFrame {
                         deleteAllDataByUsername();
                         InsertAllDataByUsername();
                     } catch (SQLException sqle) {
-                        JOptionPane.showMessageDialog(null, "无法连接数据库！请检查是否存在C:/Taobao/Taobao.accdb文件！", "错误", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "无法连接数据库！", "错误", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (ClassNotFoundException ex) {
                     JOptionPane.showMessageDialog(null, "无法加载驱动程序！", "错误", JOptionPane.ERROR_MESSAGE);
