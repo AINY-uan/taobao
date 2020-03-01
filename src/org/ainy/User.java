@@ -11,10 +11,8 @@ import java.util.List;
 /**
  * 登录面板
  *
- * @ClassName User
- * @Author    AINY-uan
- * @Date      2019-02-27 10:28
- * @Version   1.2
+ * @author AINY
+ * @date 2019-02-27 10:28
  */
 public class User extends JFrame {
 
@@ -24,13 +22,34 @@ public class User extends JFrame {
     private static final long serialVersionUID = 1L;
 
     private JPanel userPanel;
-    private JLabel jLabelName;                     // 主名称
-    private JLabel jLabelUserName;                 // 账号标签
-    private JTextField jTextFieldUserName;         // 账号显示框
-    private JLabel jLabelPassWord;                 // 密码标签
-    private JPasswordField jPasswordFieldPassWord; // 密码显示框
-    private JButton btnOfReg;                      // 注册按钮
-    private JButton btnOfLogin;                    // 登陆按钮
+    /**
+     * 主名称
+     */
+    private JLabel jLabelName;
+    /**
+     * 账号标签
+     */
+    private JLabel jLabelUserName;
+    /**
+     * 账号显示框
+     */
+    private JTextField jTextFieldUserName;
+    /**
+     * 密码标签
+     */
+    private JLabel jLabelPassWord;
+    /**
+     * 密码显示框
+     */
+    private JPasswordField jPasswordFieldPassWord;
+    /**
+     * 注册按钮
+     */
+    private JButton btnOfReg;
+    /**
+     * 登陆按钮
+     */
+    private JButton btnOfLogin;
 
     private Connection conn;
     private Statement stmt;
@@ -41,12 +60,15 @@ public class User extends JFrame {
 
     private User() {
 
-        String url = "jdbc:Access:///db/Taobao.accdb"; // 连接名为Taobao的数据库
+        // 连接名为Taobao的数据库
+        String url = "jdbc:Access:///db/Taobao.accdb";
         String driver = "com.hxtt.sql.access.AccessDriver";
         try {
-            Class.forName(driver); // Microsoft Access数据库指定与JDBC-ODBC桥驱动
+            // Microsoft Access数据库指定与JDBC-ODBC桥驱动
+            Class.forName(driver);
             try {
-                conn = DriverManager.getConnection(url); // 创建与指定数据库的连接对象
+                // 创建与指定数据库的连接对象
+                conn = DriverManager.getConnection(url);
                 stmt = conn.createStatement();
                 userPanel = new JPanel();
                 jLabelName = new JLabel();
@@ -56,7 +78,7 @@ public class User extends JFrame {
                 jPasswordFieldPassWord = new JPasswordField();
                 btnOfReg = new JButton();
                 btnOfLogin = new JButton();
-                Account();
+                account();
             } catch (SQLException sqle) {
                 JOptionPane.showMessageDialog(null, "无法连接数据库！", "错误", JOptionPane.ERROR_MESSAGE);
             }
@@ -65,7 +87,7 @@ public class User extends JFrame {
         }
     }
 
-    private void Account() {
+    private void account() {
 
         this.setTitle("用户登录");
         this.userPanel.setLayout(null);
@@ -78,17 +100,24 @@ public class User extends JFrame {
         this.jLabelPassWord.setText("密码");
         this.btnOfReg.setText("注册");
         this.btnOfLogin.setText("登录");
-        this.jLabelName.setBounds(140, 30, 200, 50);              // 主名称
-        this.jLabelUserName.setBounds(85, 100, 60, 25);           // 账号标签
-        this.jLabelPassWord.setBounds(85, 140, 60, 25);           // 密码标签
-        this.jTextFieldUserName.setBounds(140, 100, 140, 25);     // 账号显示框
-        this.jPasswordFieldPassWord.setBounds(140, 140, 140, 25); // 密码显示框
+        // 主名称
+        this.jLabelName.setBounds(140, 30, 200, 50);
+        // 账号标签
+        this.jLabelUserName.setBounds(85, 100, 60, 25);
+        // 密码标签
+        this.jLabelPassWord.setBounds(85, 140, 60, 25);
+        // 账号显示框
+        this.jTextFieldUserName.setBounds(140, 100, 140, 25);
+        // 密码显示框
+        this.jPasswordFieldPassWord.setBounds(140, 140, 140, 25);
 
-        this.btnOfReg.setBounds(110, 190, 60, 25); // 注册
-        this.btnOfReg.addActionListener(e -> btnOfReg_ActionEvent());
+        // 注册
+        this.btnOfReg.setBounds(110, 190, 60, 25);
+        this.btnOfReg.addActionListener(e -> btnOfRegActionEvent());
 
-        this.btnOfLogin.setBounds(200, 190, 60, 25); // 登录
-        this.btnOfLogin.addActionListener(e -> btnOfLogin_ActionEvent());
+        // 登录
+        this.btnOfLogin.setBounds(200, 190, 60, 25);
+        this.btnOfLogin.addActionListener(e -> btnOfLoginActionEvent());
 
         this.userPanel.add(jLabelName);
         this.userPanel.add(jLabelUserName);
@@ -101,6 +130,7 @@ public class User extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
         addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent e) {
                 try {
                     stmt.close();
@@ -115,13 +145,13 @@ public class User extends JFrame {
     /**
      * 注册按钮响应
      */
-    private void btnOfReg_ActionEvent() {
+    private void btnOfRegActionEvent() {
         String username = jTextFieldUserName.getText().trim();
         String password = String.valueOf(jPasswordFieldPassWord.getPassword()).trim();
         boolean flag = true;
         try {
             ResultSet rsetOfUser = stmt.executeQuery("SELECT * FROM User WHERE USERNAME = " + "'" + username + "'");
-            if (username.equals("") || password.equals("")) {
+            if ("".equals(username) || "".equals(password)) {
                 JOptionPane.showMessageDialog(null, "账号或密码为空，请输入！", "错误", JOptionPane.ERROR_MESSAGE);
             } else {
                 while (rsetOfUser.next()) {
@@ -143,7 +173,7 @@ public class User extends JFrame {
     /**
      * 登录按钮响应
      */
-    private void btnOfLogin_ActionEvent() {
+    private void btnOfLoginActionEvent() {
 
         String username = jTextFieldUserName.getText().trim();
         String password = String.valueOf(jPasswordFieldPassWord.getPassword()).trim();

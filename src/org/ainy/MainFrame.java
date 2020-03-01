@@ -19,10 +19,8 @@ import java.sql.Statement;
 /**
  * 主面板
  *
- * @ClassName MainFrame
- * @Author    AINY-uan
- * @Date      2019-02-27 10:30
- * @Version   1.2
+ * @author AINY
+ * @date 2019-02-27 10:30
  */
 class MainFrame extends JFrame {
 
@@ -31,42 +29,84 @@ class MainFrame extends JFrame {
      */
     private static final long serialVersionUID = 1L;
 
-    private JPanel mainPanel = new JPanel(); // 主面板
+    /**
+     * 主面板
+     */
+    private JPanel mainPanel = new JPanel();
 
-    private JLabel jLabelNameOfAccount = new JLabel("账户名");  // 账户标签
-    private JTextField jTextFieldOfAccount = new JTextField();       // 账户输入框
+    /**
+     * 账户标签
+     */
+    private JLabel jLabelNameOfAccount = new JLabel("账户名");
+    /**
+     * 账户输入框
+     */
+    private JTextField jTextFieldOfAccount = new JTextField();
 
     private JLabel sizePanelName = new JLabel();
     private DefaultTableModel sizeTableModel = null;
     private JTable sizeTable = null;
-    private JButton sizeTableBtnOfAdd = new JButton("添加"); // 添加平方米数据
-    private JButton sizeTableBtnOfDel = new JButton("删除"); // 删除平方米数据
+    /**
+     * 添加平方米数据
+     */
+    private JButton sizeTableBtnOfAdd = new JButton("添加");
+    /**
+     * 删除平方米数据
+     */
+    private JButton sizeTableBtnOfDel = new JButton("删除");
 
     private JLabel materialPanelName = new JLabel();
     private DefaultTableModel materialTableModel = null;
     private JTable materialTable = null;
-    private JButton materialTableBtnOfAdd = new JButton("添加"); // 添加材料数据
-    private JButton materialTableBtnOfDel = new JButton("删除"); // 删除材料数据
+    /**
+     * 添加材料数据
+     */
+    private JButton materialTableBtnOfAdd = new JButton("添加");
+    /**
+     * 删除材料数据
+     */
+    private JButton materialTableBtnOfDel = new JButton("删除");
 
     private JLabel partsPanelName = new JLabel();
     private DefaultTableModel partsTableModel = null;
     private JTable partsTable = null;
-    private JButton partsTableBtnOfAdd = new JButton("添加"); // 添加配件数据
-    private JButton partsTableBtnOfDel = new JButton("删除"); // 删除配件数据
+    /**
+     * 添加配件数据
+     */
+    private JButton partsTableBtnOfAdd = new JButton("添加");
+    /**
+     * 删除配件数据
+     */
+    private JButton partsTableBtnOfDel = new JButton("删除");
 
     private JLabel expressPanelName = new JLabel();
     private DefaultTableModel expressTableModel = null;
     private JTable expressTable = null;
-    private JButton expressTableBtnOfAdd = new JButton("添加"); // 添加快递数据
-    private JButton expressTableBtnOfDel = new JButton("删除"); // 删除快递数据
+    /**
+     * 添加快递数据
+     */
+    private JButton expressTableBtnOfAdd = new JButton("添加");
+    /**
+     * 删除快递数据
+     */
+    private JButton expressTableBtnOfDel = new JButton("删除");
 
     private JTextArea inputArea = new JTextArea();
 
-    private JButton outBtn = new JButton("按平方米输出"); // 输出按钮
-    private JButton outBtn2 = new JButton("按米输出");   // 输出按钮
+    /**
+     * 输出按钮
+     */
+    private JButton outBtn = new JButton("按平方米输出");
+    /**
+     * 输出按钮
+     */
+    private JButton outBtn2 = new JButton("按米输出");
     private JTextArea outputArea = new JTextArea();
 
-    private JButton copyBtn = new JButton("复制到剪贴板"); // 复制按钮
+    /**
+     * 复制按钮
+     */
+    private JButton copyBtn = new JButton("复制到剪贴板");
 
     private Connection conn;
     private Statement stmt;
@@ -92,6 +132,7 @@ class MainFrame extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
         this.addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent e) {
                 String url = "jdbc:Access:///db/Taobao.accdb"; // 连接名为Taobao的数据库
                 String driver = "com.hxtt.sql.access.AccessDriver";
@@ -120,9 +161,11 @@ class MainFrame extends JFrame {
     private void initAccountPanel(String username) {
 
         this.jLabelNameOfAccount.setFont(new Font("方正正中黑", Font.PLAIN, 20));
-        this.jLabelNameOfAccount.setBounds(10, 5, 100, 25); // 账户标签
+        // 账户标签
+        this.jLabelNameOfAccount.setBounds(10, 5, 100, 25);
         this.jTextFieldOfAccount.setFont(new Font("方正正中黑", Font.PLAIN, 20));
-        this.jTextFieldOfAccount.setBounds(110, 5, 140, 25); // 账户输入框
+        // 账户输入框
+        this.jTextFieldOfAccount.setBounds(110, 5, 140, 25);
         this.jTextFieldOfAccount.setBackground(Color.PINK);
         this.jTextFieldOfAccount.setEditable(false);
         this.jTextFieldOfAccount.setText(username);
@@ -162,12 +205,12 @@ class MainFrame extends JFrame {
                 sizeTableModel.removeRow(sizeTable.getSelectedRow());
             }
         });
-        JScrollPane sizeJScrollPane = new JScrollPane(sizeTable);
-        sizeJScrollPane.setViewportView(sizeTable);
-        sizeJScrollPane.setBounds(10, 80, 400, 400);
+        JScrollPane sizeJscrollPane = new JScrollPane(sizeTable);
+        sizeJscrollPane.setViewportView(sizeTable);
+        sizeJscrollPane.setBounds(10, 80, 400, 400);
         this.mainPanel.add(sizeTableBtnOfAdd);
         this.mainPanel.add(sizeTableBtnOfDel);
-        this.mainPanel.add(sizeJScrollPane);
+        this.mainPanel.add(sizeJscrollPane);
     }
 
     /**
@@ -200,8 +243,10 @@ class MainFrame extends JFrame {
         this.materialTable.setDefaultRenderer(Object.class, materialTableStyle);
         this.materialTable.setFont(new Font("方正正中黑", Font.PLAIN, 20));
         JTableHeader materialTableHead = materialTable.getTableHeader();
-        materialTableHead.setPreferredSize(new Dimension(materialTableHead.getWidth(), 30));// 设置表头大小
-        materialTableHead.setFont(new Font("方正正中黑", Font.PLAIN, 20));// 设置表格字体
+        // 设置表头大小
+        materialTableHead.setPreferredSize(new Dimension(materialTableHead.getWidth(), 30));
+        // 设置表格字体
+        materialTableHead.setFont(new Font("方正正中黑", Font.PLAIN, 20));
         this.materialTable.setRowHeight(30);
         this.materialTableBtnOfAdd.setFont(new Font("方正正中黑", Font.PLAIN, 20));
         this.materialTableBtnOfAdd.setBounds(540, 40, 80, 25);
@@ -214,12 +259,12 @@ class MainFrame extends JFrame {
                 materialTableModel.removeRow(materialTable.getSelectedRow());
             }
         });
-        JScrollPane materialJScrollPane = new JScrollPane(materialTable);
-        materialJScrollPane.setViewportView(materialTable);
-        materialJScrollPane.setBounds(430, 80, 290, 400);
+        JScrollPane materialJscrollPane = new JScrollPane(materialTable);
+        materialJscrollPane.setViewportView(materialTable);
+        materialJscrollPane.setBounds(430, 80, 290, 400);
         this.mainPanel.add(materialTableBtnOfAdd);
         this.mainPanel.add(materialTableBtnOfDel);
-        this.mainPanel.add(materialJScrollPane);
+        this.mainPanel.add(materialJscrollPane);
     }
 
     /**
