@@ -101,6 +101,13 @@ class MainFrame extends JFrame {
      * 输出按钮
      */
     private JButton outBtn2 = new JButton("按米输出");
+    /**
+     * 按个数输出
+     */
+    private JButton outBtn3 = new JButton("按个数输出");
+    /**
+     * 输出区域
+     */
     private JTextArea outputArea = new JTextArea();
 
     /**
@@ -142,7 +149,7 @@ class MainFrame extends JFrame {
                         conn = DriverManager.getConnection(url); // 创建与指定数据库的连接对象
                         stmt = conn.createStatement();
                         deleteAllDataByUsername();
-                        InsertAllDataByUsername();
+                        insertAllDataByUsername();
                     } catch (SQLException sqle) {
                         JOptionPane.showMessageDialog(null, "无法连接数据库！", "错误", JOptionPane.ERROR_MESSAGE);
                     }
@@ -388,17 +395,22 @@ class MainFrame extends JFrame {
      */
     private void initOutPanel() {
 
-        this.inputArea.setEditable(true); // 文本区可编辑
+        // 文本区可编辑
+        this.inputArea.setEditable(true);
         this.inputArea.setFont(new Font("方正正中黑", Font.PLAIN, 20));
         this.mainPanel.add(getInputArea(), null);
-        this.outBtn.setFont(new Font("方正正中黑", Font.PLAIN, 20));
-        this.outBtn.setBounds(10, 650, 195, 25);
+        this.outBtn.setFont(new Font("方正正中黑", Font.PLAIN, 15));
+        this.outBtn.setBounds(10, 650, 125, 25);
         this.outBtn.addActionListener(e -> outputButton_ActionEvent());
-        this.outBtn2.setFont(new Font("方正正中黑", Font.PLAIN, 20));
-        this.outBtn2.setBounds(215, 650, 195, 25);
+        this.outBtn2.setFont(new Font("方正正中黑", Font.PLAIN, 15));
+        this.outBtn2.setBounds(145, 650, 125, 25);
         this.outBtn2.addActionListener(e -> outputButton_ActionEvent2());
+        this.outBtn3.setFont(new Font("方正正中黑", Font.PLAIN, 15));
+        this.outBtn3.setBounds(280, 650, 125, 25);
+        this.outBtn3.addActionListener(e -> outputButton_ActionEvent3());
         this.mainPanel.add(outBtn);
         this.mainPanel.add(outBtn2);
+        this.mainPanel.add(outBtn3);
     }
 
     /**
@@ -593,6 +605,76 @@ class MainFrame extends JFrame {
     }
 
     /**
+     * 按个数输出按钮响应
+     */
+    private void outputButton_ActionEvent3() {
+
+        String name = jTextFieldOfAccount.getText().trim();
+        String input = inputArea.getText().trim();
+        if ("".equals(name)) {
+            jTextFieldOfAccount.setText("");
+            JOptionPane.showMessageDialog(null, "请输入账户名！", "错误", JOptionPane.ERROR_MESSAGE);
+        } else {
+            // 选中的材料行数
+            int[] materialTableModelCounts = materialTable.getSelectedRows();
+            // 选中的平方米行数
+            int[] sizeTableModelCounts = sizeTable.getSelectedRows();
+            // 选中的配件行数
+            int[] partsTableModelCounts = partsTable.getSelectedRows();
+            // 选中的快递行数
+            int[] expressTableModelCounts = expressTable.getSelectedRows();
+            if (materialTableModelCounts.length <= 0) {
+                JOptionPane.showMessageDialog(null, "请选择材料，只能选择一种，多选默认取第一条！", "错误", JOptionPane.ERROR_MESSAGE);
+            } else if (sizeTableModelCounts.length <= 0) {
+                JOptionPane.showMessageDialog(null, "请选择平方米！", "错误", JOptionPane.ERROR_MESSAGE);
+            } else if (partsTableModelCounts.length <= 0) {
+                JOptionPane.showMessageDialog(null, "请选择配件！", "错误", JOptionPane.ERROR_MESSAGE);
+            } else if (expressTableModelCounts.length <= 0) {
+                JOptionPane.showMessageDialog(null, "请选择快递，只能选择一种，多选默认取第一条！", "错误", JOptionPane.ERROR_MESSAGE);
+            } else {
+                try {
+                    StringBuilder sb = new StringBuilder();
+                    StringBuilder sb1 = new StringBuilder();
+                    StringBuilder sb2 = new StringBuilder();
+                    sb.append(name);
+                    sb.append("/");
+                    BigDecimal counts = new BigDecimal("0");
+                    for (int sizeTableModelCount : sizeTableModelCounts) {
+                        counts = counts.add(new BigDecimal(sizeTableModel.getValueAt(sizeTableModelCount, 2).toString().trim()));
+                    }
+                    sb.append(counts);
+                    sb.append("个");
+                    sb.append("/");
+                    sb.append(materialTableModel.getValueAt(materialTable.getSelectedRow(), 0));
+                    sb.append("/");
+                    for (int partsTableModelCount : partsTableModelCounts) {
+                        sb1.append(partsTableModel.getValueAt(partsTableModelCount, 0));
+                        sb1.append("+");
+                    }
+                    sb.append(sb1.toString(), 0, sb1.toString().length() - 1);
+                    sb.append("/");
+                    for (int sizeTableModelCount : sizeTableModelCounts) {
+                        sb2.append(sizeTableModel.getValueAt(sizeTableModelCount, 0).toString().trim());
+                        sb2.append("*");
+                        sb2.append(sizeTableModel.getValueAt(sizeTableModelCount, 1).toString().trim());
+                        sb2.append("厘米");
+                        sb2.append("+");
+                    }
+                    sb.append(sb2.toString(), 0, sb2.toString().length() - 1);
+                    sb.append("/");
+                    sb.append(expressTableModel.getValueAt(expressTable.getSelectedRow(), 0));
+                    sb.append("/");
+                    sb.append("".equals(input) ? "无" : input);
+                    outputArea.setText(sb.toString());
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                    JOptionPane.showMessageDialog(null, e1, "错误", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }
+
+    /**
      * 根据用户名删除所有数据
      *
      * @throws SQLException SQLException
@@ -611,7 +693,7 @@ class MainFrame extends JFrame {
      *
      * @throws SQLException SQLException
      */
-    private void InsertAllDataByUsername() throws SQLException {
+    private void insertAllDataByUsername() throws SQLException {
 
         String username = jTextFieldOfAccount.getText();
         for (int a = 0; a < sizeTable.getRowCount(); a++) {
